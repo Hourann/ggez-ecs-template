@@ -1,7 +1,7 @@
 use ggez_goodies::scene;
 
 use input;
-use ecs::world::World;
+use world::World;
 
 pub mod level;
 

@@ -13,7 +13,7 @@ use warmy;
 
 use std::path;
 
-use ecs::components::*;
+use components::*;
 use input;
 
 pub struct World {
@@ -64,8 +64,7 @@ impl World {
             .with(Motion {
                 velocity: Vector2::new(1.0, 1.0),
                 acceleration: Vector2::new(0.0, 0.0),
-            })
-            .build();
+            }).build();
 
         the_world
     }

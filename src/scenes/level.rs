@@ -8,7 +8,8 @@ use ecs::components as c;
 use input;
 use loeader;
 use scenes::*;
-use ecs::{systems::*, world::World};
+use systems::*;
+use world::World;
 
 pub struct LevelScene {
     done: bool,

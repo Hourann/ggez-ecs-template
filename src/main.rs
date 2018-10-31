@@ -14,9 +14,9 @@ extern crate specs;
 extern crate specs_derive;
 extern crate warmy;
 
-use ggez::*;
 use ggez::conf;
 use ggez::event;
+use ggez::*;
 
 use ggez::event::*;
 use ggez::graphics;
@@ -34,6 +34,7 @@ mod input;
 mod loeader;
 mod util;
 
+pub use ecs::{components, resources, systems, world};
 /// Function to set up logging.
 /// We write all debug messages (which will be a log)
 /// to both stdout and a log file.
@@ -64,12 +65,13 @@ fn setup_logger() -> Result<(), fern::InitError> {
         .level_for("gfx_device_gl", log::LevelFilter::Warn)
         .level(log::LevelFilter::Debug)
         .chain(std::io::stdout())
-        .chain(std::fs::OpenOptions::new()
-               .write(true)
-               .create(true)
-               .truncate(true)
-               .open("debug.log")?)
-        .apply()?;
+        .chain(
+            std::fs::OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open("debug.log")?,
+        ).apply()?;
     Ok(())
 }
 
@@ -84,7 +86,7 @@ pub struct MainState {
 
 impl MainState {
     pub fn new(resource_dir: &Option<path::PathBuf>, ctx: &mut Context) -> Self {
-        let world = ecs::world::World::new(ctx, resource_dir.clone());
+        let world = world::World::new(ctx, resource_dir.clone());
         let mut scenestack = scenes::FSceneStack::new(ctx, world);
         let initial_scene = Box::new(scenes::level::LevelScene::new(ctx, &mut scenestack.world));
         scenestack.push(initial_scene);
