@@ -25,15 +25,13 @@ use ggez::timer;
 use std::path;
 
 // Modules that define actual content
-mod components;
+mod ecs;
 mod scenes;
-mod systems;
-mod world;
 
 // Modules that define utility stuff.
 mod error;
 mod input;
-mod resources;
+mod loeader;
 mod util;
 
 /// Function to set up logging.
@@ -85,8 +83,8 @@ pub struct MainState {
 }
 
 impl MainState {
-    pub fn new(resource_dir: Option<path::PathBuf>, ctx: &mut Context) -> Self {
-        let world = world::World::new(ctx, resource_dir.clone());
+    pub fn new(resource_dir: &Option<path::PathBuf>, ctx: &mut Context) -> Self {
+        let world = ecs::world::World::new(ctx, resource_dir.clone());
         let mut scenestack = scenes::FSceneStack::new(ctx, world);
         let initial_scene = Box::new(scenes::level::LevelScene::new(ctx, &mut scenestack.world));
         scenestack.push(initial_scene);
@@ -145,7 +143,7 @@ pub fn main() {
     // And save it so we can feed the result into warmy
     let cargo_path: Option<path::PathBuf> = option_env!("CARGO_MANIFEST_DIR").map(|env_path| {
         let mut res_path = path::PathBuf::from(env_path);
-        res_path.push("resources");
+        res_path.push("assets");
         res_path
     });
     // If we have such a path then add it to the context builder too
@@ -156,7 +154,7 @@ pub fn main() {
 
     let ctx = &mut cb.build().unwrap();
 
-    let state = &mut MainState::new(cargo_path, ctx);
+    let state = &mut MainState::new(&cargo_path, ctx);
     if let Err(e) = event::run(ctx, state) {
         println!("Error encountered: {}", e);
     } else {

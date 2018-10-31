@@ -4,16 +4,15 @@ use ggez_goodies::scene;
 use specs::{self, Join};
 use warmy;
 
-use components as c;
+use ecs::components as c;
 use input;
-use resources;
+use loeader;
 use scenes::*;
-use systems::*;
-use world::World;
+use ecs::{systems::*, world::World};
 
 pub struct LevelScene {
     done: bool,
-    kiwi: warmy::Res<resources::Image>,
+    kiwi: warmy::Res<loeader::Image>,
     dispatcher: specs::Dispatcher<'static, 'static>,
 }
 
@@ -22,7 +21,7 @@ impl LevelScene {
         let done = false;
         let kiwi = world
             .assets
-            .get::<_, resources::Image>(&warmy::FSKey::new("/images/kiwi.png"), ctx)
+            .get::<loeader::Image>(&warmy::SimpleKey::from_path("/images/kiwi.png"), ctx)
             .unwrap();
         let dispatcher = Self::register_systems();
         LevelScene {
@@ -41,7 +40,7 @@ impl LevelScene {
 
 impl scene::Scene<World, input::InputEvent> for LevelScene {
     fn update(&mut self, gameworld: &mut World) -> FSceneSwitch {
-        self.dispatcher.dispatch(&mut gameworld.specs_world.res);
+        self.dispatcher.dispatch(&gameworld.specs_world.res);
         if self.done {
             scene::SceneSwitch::Pop
         } else {

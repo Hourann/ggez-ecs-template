@@ -13,11 +13,11 @@ use warmy;
 
 use std::path;
 
-use components::*;
+use ecs::components::*;
 use input;
 
 pub struct World {
-    pub assets: warmy::Store<ggez::Context>,
+    pub assets: warmy::Store<ggez::Context, warmy::SimpleKey>,
     pub input: input::InputState,
     pub specs_world: specs::World,
 }

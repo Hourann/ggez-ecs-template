@@ -1,7 +1,7 @@
 //! specs systems.
 use specs::{self, Join};
 
-use components::*;
+use ecs::components::*;
 
 pub struct MovementSystem;
 
