@@ -71,7 +71,8 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 .create(true)
                 .truncate(true)
                 .open("debug.log")?,
-        ).apply()?;
+        )
+        .apply()?;
     Ok(())
 }
 
@@ -85,8 +86,8 @@ pub struct MainState {
 }
 
 impl MainState {
-    pub fn new(resource_dir: &Option<path::PathBuf>, ctx: &mut Context) -> Self {
-        let world = world::World::new(ctx, resource_dir.clone());
+    pub fn new(asset_dir: &Option<path::PathBuf>, ctx: &mut Context) -> Self {
+        let world = world::World::new(ctx, asset_dir.clone());
         let mut scenestack = scenes::FSceneStack::new(ctx, world);
         let initial_scene = Box::new(scenes::level::LevelScene::new(ctx, &mut scenestack.world));
         scenestack.push(initial_scene);
@@ -140,7 +141,7 @@ pub fn main() {
         .window_setup(conf::WindowSetup::default().title("game-template"))
         .window_mode(conf::WindowMode::default().dimensions(800, 600));
 
-    // We add the CARGO_MANIFEST_DIR/resources to the filesystems paths so
+    // We add the CARGO_MANIFEST_DIR/assets to the filesystems paths so
     // we we look in the cargo project for files.
     // And save it so we can feed the result into warmy
     let cargo_path: Option<path::PathBuf> = option_env!("CARGO_MANIFEST_DIR").map(|env_path| {

@@ -1,4 +1,4 @@
-//! Example of integrating ggez types with the `warmy` resource loader.
+//! Example of integrating ggez types with the `warmy` asset loader.
 
 use std::path;
 
@@ -14,7 +14,7 @@ use warmy::SimpleKey;
 /// Store's root off of the given absolute path and turns it into the style of path
 /// that ggez expects.
 ///
-/// Because of this, ggez will have several places that resources *may* live but
+/// Because of this, ggez will have several places that assets *may* live but
 /// warmy will only watch for reloads in one of them.  However, that isn't a huge
 /// problem: for development you generally want all your assets in one place to
 /// begin with, and for deployment you don't need the hotloading functionality.

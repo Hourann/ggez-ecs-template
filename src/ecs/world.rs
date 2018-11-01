@@ -30,19 +30,19 @@ impl World {
         self.specs_world.register::<Player>();
     }
 
-    pub fn new(ctx: &mut ggez::Context, resource_dir: Option<path::PathBuf>) -> Self {
+    pub fn new(ctx: &mut ggez::Context, asset_dir: Option<path::PathBuf>) -> Self {
         // We to bridge the gap between ggez and warmy path
         // handling here; ggez assumes its own absolute paths, warmy
         // assumes system-absolute paths; so, we make warmy look in
-        // the specified resource dir (normally
-        // $CARGO_MANIFEST_DIR/resources) or the ggez default resource
+        // the specified asset dir (normally
+        // $CARGO_MANIFEST_DIR/assets) or the ggez default asset
         // dir.
-        let resource_pathbuf: path::PathBuf = match resource_dir {
+        let asset_pathbuf: path::PathBuf = match asset_dir {
             Some(s) => s,
             None => ctx.filesystem.get_resources_dir().to_owned(),
         };
-        info!("Setting up resource path: {:?}", resource_pathbuf);
-        let opt = warmy::StoreOpt::default().set_root(resource_pathbuf);
+        info!("Setting up asset path: {:?}", asset_pathbuf);
+        let opt = warmy::StoreOpt::default().set_root(asset_pathbuf);
         let store = warmy::Store::new(opt)
             .expect("Could not create asset store?  Does the directory exist?");
 
@@ -64,7 +64,8 @@ impl World {
             .with(Motion {
                 velocity: Vector2::new(1.0, 1.0),
                 acceleration: Vector2::new(0.0, 0.0),
-            }).build();
+            })
+            .build();
 
         the_world
     }

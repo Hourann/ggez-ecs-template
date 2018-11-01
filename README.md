@@ -6,4 +6,4 @@ gamedev tools:
  * log + fern (logging)
  * failure (error reporting)
  * specs (ECS)
- * warmy (resource handling)
+ * warmy (asset handling)
